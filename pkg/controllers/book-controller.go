@@ -23,11 +23,14 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(params["id"], 0, 64)
 	if err != nil {
 		http.Error(w, "Invalid Book ID", http.StatusBadRequest)
+		return
 	}
 	book, _ := models.GetBookById(id)
 	if book.ID == 0 {
 		http.Error(w, "Book Not Found", http.StatusNotFound)
+		return
 	}
+	json.NewEncoder(w).Encode(book)
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request) {

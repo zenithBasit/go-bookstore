@@ -22,9 +22,7 @@ func init() {
 }
 
 func (b *Book) CreateBook() *Book {
-	if err := db.First(b).Error; err != nil && gorm.ErrRecordNotFound == err {
-		db.Create(&b)
-	}
+	db.Create(&b)
 	return b
 }
 
@@ -35,9 +33,9 @@ func GetAllBooks() []Book {
 }
 
 func GetBookById(ID int64) (*Book, *gorm.DB) {
-	var Book Book
-	db := db.Where("ID=?", ID).Find(Book)
-	return &Book, db
+	var book Book
+	db := db.Where("ID=?", ID).Find(&book)
+	return &book, db
 }
 
 func DeleteBook(ID int64) Book {
